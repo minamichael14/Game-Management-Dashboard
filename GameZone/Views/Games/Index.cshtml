@@ -1,0 +1,109 @@
+﻿@model List<Game>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">
+        <h4 class="alert-heading">No Games!</h4>
+        <p class="mb-0">No games were added yet.</p>
+    </div>
+}
+else
+{
+    <h1> Games </h1>
+    <hr/>
+
+    <div>
+        <table class="table table-hover table-secondary" style=" border-collapse: separate;border-spacing: 0px 10px;">
+            <tbody>
+                @foreach (var game in Model)
+                {
+                    
+                    <tr style="border-radius:6px">
+                        <td >
+                            <div class="d-flex">
+                                <div class="pe-3">
+                                    <img src="@($"{FileSettings.ImagePath}/{game.Cover}")" alt="@game.Name" style="background-size: cover;height:100px;width:100px;" />
+                                </div>
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h4 class="text-primary">@game.Name</h4>
+                                    <p class="">@game.Category.Name</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-end">
+                               <a class="btn btn-success me-2" asp-action="Edit" asp-route-id="@game.Id">Edit</a>
+                                <a class="btn btn-danger me-2" asp-action="Delete" asp-route-id="@game.Id">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!Model.Any()){
+    @foreach (var game in Model)
+    {
+        <div class="card m-2 ">
+            <div class="d-flex">
+                <div class="pe-3">
+                    <img src="@($"{FileSettings.ImagePath}/{game.Cover}")" alt="@game.Name" style="max-width:100px" />
+                </div>
+                <div class="d-flex flex-column justify-content-center ">
+                    <h4 class="card-title">@game.Name</h4>
+                    <h6 class="card-title">@game.Category.Name</h6>
+                </div>
+             </div>
+             @if(false){
+            <div class="card-body p-xl-3">
+                <h4 class="card-title">@game.Name</h4>
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">@game.Description</p>
+                <a href="/games/edit/@game.Id" class="card-link">Edit</a>
+                <a class="card-link" href="/games/delete/@game.Id">Delete</a>
+            </div>
+             }
+        </div>
+    
+    }
+
+
+    <table class="table table-hover table-secondary">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">cover</th>
+                <th scope="col">Category</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        @foreach (var item in Model)
+        {
+            <tr class="table-active">
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.Cover</td>
+                <td>@item.CategorieId</td>
+                <td>
+                    <a class="btn btn-success" href="/games/edit/@item.Id">Edit</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger" href="/games/delete/@item.Id">Delete</a>
+                </td>
+            </tr>
+            }
+    </table>
+    }
+
+}
+<a class="btn btn-primary btn-lg" asp-action="Create">
+    <i class="bi bi-plus-circle-fill"></i>
+    new Game
+</a>
